@@ -1,0 +1,9 @@
+mysh
+.idea/
+*~
+*.a
+*.o
+*.s
+#*
+*#
+vgcore*
