@@ -5,27 +5,73 @@
 ** C file
 */
 
-#include "get_next_line.h"
-
+#include <stdio.h>
+#include "minishell.h"
 static char buffer[READ_SIZE];
 
-char *get_next_line(int fd)
+static inline ssize_t my_strchr(char *str)
 {
-	ssize_t read_value = read(fd, buffer, READ_SIZE);
-	size_t length = read_value - 1;
-	char *str = malloc(sizeof(*(str)) * length + 1);
+	char *buffer = str;
+
+	while (*(buffer)) {
+		if (*(buffer) == '\n') {
+			return ((buffer - str));
+		}
+		++(buffer);
+	}
+	return (-1);
+}
+
+static inline void my_strncpy(char *dest, char const *src, size_t n)
+{
+	*(dest + n) = 0;
+	while (n) {
+		--(n);
+		*(dest + n) = *(src + n);
+	}
+}
+
+static char *my_string(char *str, size_t size, size_t to_add)
+{
+	char *new_str = NULL;
 
 	if (!(str)) {
+		new_str = malloc(sizeof(char) * (to_add + 1));
+		if (!(new_str)) {
+			return (NULL);
+		}
+		my_strncpy(new_str, buffer, to_add - size);
+	} else {
+		new_str = malloc(sizeof(char) * (to_add + size + 1));
+		if (!(new_str)) {
+			return (NULL);
+		}
+		my_strncpy(new_str, str, size);
+		my_strncpy(&(new_str[size]), buffer, to_add);
+		free(str);
+	}
+	return (new_str);
+}
+
+char *get_next_line(void)
+{
+	char *line = NULL;
+	int length = 0;
+	int read_value = read(STDIN_FILENO, buffer, READ_SIZE);
+
+	if (read_value == -1) {
 		return (NULL);
 	}
-	strncpy(str, buffer, length);
-	while (read_value == READ_SIZE) {
-		read_value = read(fd, buffer, READ_SIZE);
-		str = realloc(str, sizeof(*(str)) * (length + read_value + 1));
-		strncpy(str, &(buffer[length]), read_value);
-		length = length + read_value;
+	while (my_strchr(buffer) == -1) {
+		line = my_string(line, length, READ_SIZE);
+		if (!(line)) {
+			return (NULL);
+		}
+		length = length + READ_SIZE;
+		read_value = read(STDIN_FILENO, buffer, READ_SIZE);
+		if (read_value == -1) {
+			return (NULL);
+		}
 	}
-	str[length] = 0;
-	printf(">>%s<<\n", str);
-	return (str);
+	return (my_string(line, length, my_strchr(buffer)));
 }
