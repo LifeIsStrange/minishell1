@@ -1,13 +1,13 @@
 /*
 ** EPITECH PROJECT, 2018
-** my_printf
+** LibString
 ** File description:
-** Created by lafeyc_v
+** Atoi - Convert a string to an integer
 */
 
 #include <limits.h>
 
-int my_getnbr(char const *str)
+int my_atoi(char const *str)
 {
 	char sign = 1;
 	long int nbr = 0;

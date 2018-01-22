@@ -9,11 +9,11 @@ include ../../tools.mk
 
 HEADER	=	libstring.h
 
-SRC	=	src/my_strcmp.c		\
-		src/my_strncmp.c	\
-		src/my_getnbr.c		\
-		src/my_strchr.c		\
-		src/my_strncpy.c
+SRC	=	src/strcmp.c		\
+		src/atoi.c		\
+		src/strchr.c		\
+		src/strcpy.c		\
+		src/strlen.c
 
 NAME	=	libstring.a
 
