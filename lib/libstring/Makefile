@@ -14,7 +14,8 @@ SRC	=	src/strcmp.c		\
 		src/strchr.c		\
 		src/strcpy.c		\
 		src/strdup.c		\
-		src/strlen.c
+		src/strlen.c		\
+		src/putstr.c
 
 NAME	=	libstring.a
 
