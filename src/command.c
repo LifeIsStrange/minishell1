@@ -7,6 +7,9 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "libstring.h"
 #include "minishell.h"
 #include "command.h"
@@ -15,6 +18,13 @@ command_t const LIST_COMMAND[] = {
 	{"cd", cd_command},
 	{"setenv", setenv_command}
 };
+
+static int get_error_by_signal(int w_status)
+{
+	if (WCOREDUMP(w_status)) {
+		WRITE_DEFINE(SEGMENTATION_FAULT);
+	}
+}
 
 static int launch_binary(char *path, char **args, char **arge)
 {
@@ -27,20 +37,13 @@ static int launch_binary(char *path, char **args, char **arge)
 		return (execve(path, args, arge));
 	} else {
 		waitpid(0, &(w_status), 0);
+		if (w_status == -1) {
+			return (false);
+		} else if (WIFSIGNALED(w_status)) {
+			get_error_by_signal(w_status);
+		}
 	}
 	return (true);
-}
-
-static char *get_env(char **arge, char *env, size_t env_len)
-{
-	while (*(arge)) {
-		if (my_strncmp(*(arge), env, env_len - 1)) {
-			++(arge);
-			continue;
-		}
-		return (my_strdup(*(arge) + sizeof(ENV_PATH) - 1));
-	}
-	return (NULL);
 }
 
 static int launch_binary_by_path(char **path, char **args, char **arge)
@@ -53,6 +56,7 @@ static int launch_binary_by_path(char **path, char **args, char **arge)
 		return (launch_binary(*(path), args, arge));
 	}
 	if (!(*(path))) {
+		my_putstr(*(args));
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 	}
 	return (true);
@@ -64,6 +68,7 @@ static int launch_binary_by_command(char **args, char **arge)
 	char **path = path_to_array(env, *(args));
 
 	if (!(env)) {
+		my_putstr(*(args));
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 		return (true);
 	}

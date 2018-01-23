@@ -10,6 +10,10 @@
 
 typedef struct command_s command_t;
 
+#ifndef WCOREDUMP
+# define WCOREDUMP(status)	((status) & 0x80)
+#endif
+
 struct command_s {
 	char *cmd;
 	int (*fptr)(char **args, char **arge);

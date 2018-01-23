@@ -16,7 +16,8 @@ SRC	=	src/main.c			\
 		src/get_next_line.c		\
 		src/builtin.c			\
 		src/path_to_array.c		\
-		src/command.c
+		src/command.c			\
+		src/utils.c
 
 NAME	=	mysh
 
