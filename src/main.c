@@ -15,6 +15,10 @@ static int loop_shell(char **arge)
 	do {
 		write(1, PROMPT, sizeof(PROMPT));
 		args = str_to_array(get_next_line());
+		if (!(args)) {
+			write(1, "exit\n", 5);
+			return (true);
+		}
 		if (!(launch_command(args, arge))) {
 			return (false);
 		}

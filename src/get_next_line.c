@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include "minishell.h"
-static char buffer[READ_SIZE];
+char buffer[READ_SIZE];
 
 static inline ssize_t my_strchr(char *str)
 {
@@ -59,7 +59,7 @@ char *get_next_line(void)
 	int length = 0;
 	int read_value = read(STDIN_FILENO, buffer, READ_SIZE);
 
-	if (read_value == -1) {
+	if (read_value == -1 || !(read_value)) {
 		return (NULL);
 	}
 	while (my_strchr(buffer) == -1) {

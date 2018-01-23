@@ -93,5 +93,8 @@ int launch_command(char **args, char **arge)
 		}
 		return ((LIST_COMMAND[counter].fptr)(args, arge));
 	} while (++(counter) < ARRAY_SIZE(LIST_COMMAND));
+	if (*(*(args)) == '/') {
+		return (launch_binary_by_path(&(*(args)), args, arge));
+	}
 	return (launch_binary_by_command(args, arge));
 }
