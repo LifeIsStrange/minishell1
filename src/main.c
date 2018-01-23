@@ -103,13 +103,6 @@ char **get_possible_path(char **arge, char *command)
 	return (NULL);
 }
 */
-void print_all(char **args)
-{
-	while (*(args)) {
-		printf(">%s<\n", *args);
-		++(args);
-	}
-}
 
 static int loop_shell(char **arge)
 {
@@ -121,7 +114,6 @@ static int loop_shell(char **arge)
 		if (!(launch_command(args, arge))) {
 			return (84);
 		}
-		print_all(args);
 		if (*(args) && !(my_strcmp(*(args), CMD_EXIT))) {
 			free(*(args));
 			free(args);

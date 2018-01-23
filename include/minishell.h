@@ -26,6 +26,7 @@
 // Prototypes
 char **str_to_array(char *str);
 char *get_next_line(void);
+char **path_to_array(char *path, char *command);
 int launch_command(char **args, char **arge);
 
 #endif		/* MINISHELL_H_ */

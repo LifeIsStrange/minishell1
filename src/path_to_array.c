@@ -46,8 +46,8 @@ static void set_path_tab(char **tab, char *str, size_t len, uint deep)
 	size_t str_length = my_strlen(str);
 
 	*(tab + deep) = path_start;
-	strcpy(path_start, str);
-	strcpy(path_start + str_length + 1, cmd);
+	my_strcpy(path_start, str);
+	my_strcpy(path_start + str_length + 1, cmd);
 	*(path_start + str_length) = '/';
 }
 
