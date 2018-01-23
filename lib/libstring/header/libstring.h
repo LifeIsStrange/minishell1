@@ -10,6 +10,7 @@
 
 #include <unistd.h>
 
+char *my_strdup(const char *str);
 size_t my_strcmp(char const *s1, char const *s2);
 size_t my_strncmp(char const *s1, char const *s2, int n);
 int my_atoi(char const *str);

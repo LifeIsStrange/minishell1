@@ -13,6 +13,7 @@ SRC	=	src/strcmp.c		\
 		src/atoi.c		\
 		src/strchr.c		\
 		src/strcpy.c		\
+		src/strdup.c		\
 		src/strlen.c
 
 NAME	=	libstring.a
