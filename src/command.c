@@ -5,6 +5,8 @@
 ** Run command
 */
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "libstring.h"
 #include "minishell.h"
 #include "command.h"
@@ -14,10 +16,25 @@ command_t const LIST_COMMAND[] = {
 	{"setenv", setenv_command}
 };
 
-static char *get_env(char **arge, char *args)
+static int launch_binary(char *path, char **args, char **arge)
+{
+	pid_t pid = fork();
+	int w_status;
+
+	if (pid == -1) {
+		return (false);
+	} else if (pid == 0) {
+		return (execve(path, args, arge));
+	} else {
+		waitpid(0, &(w_status), 0);
+	}
+	return (true);
+}
+
+static char *get_env(char **arge, char *env, size_t env_len)
 {
 	while (*(arge)) {
-		if (my_strncmp(*(arge), ENV_PATH, sizeof(ENV_PATH) - 1)) {
+		if (my_strncmp(*(arge), env, env_len - 1)) {
 			++(arge);
 			continue;
 		}
@@ -26,24 +43,40 @@ static char *get_env(char **arge, char *args)
 	return (NULL);
 }
 
-static void print_al(char **args)
+static int launch_binary_by_path(char **path, char **args, char **arge)
 {
-	while (*(args)) {
-		printf(">%s<\n", *args);
-		++(args);
+	while (*(path)) {
+		if (access(*(path), F_OK)) {
+			++(path);
+			continue;
+		}
+		return (launch_binary(*(path), args, arge));
 	}
+	if (!(*(path))) {
+		WRITE_DEFINE(COMMAND_NOT_FOUND);
+	}
+	return (true);
 }
 
-int launch_binary(char **args, char **arge)
+static int launch_binary_by_command(char **args, char **arge)
 {
-	char **path = path_to_array(get_env(arge, ENV_PATH), *(args));
+	char *env = get_env(arge, ENV_PATH, sizeof(ENV_PATH));
+	char **path = path_to_array(env, *(args));
 
-	print_al(path);
-	if (!(path)) {
+	if (!(env)) {
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 		return (true);
 	}
-	WRITE_DEFINE(COMMAND_NOT_FOUND);
+	if (!(path)) {
+		return (false);
+	}
+	if (!(launch_binary_by_path(path, args, arge))) {
+		free(*(path));
+		free(path);
+		return (false);
+	}
+	free(*(path));
+	free(path);
 	return (true);
 }
 
@@ -60,5 +93,5 @@ int launch_command(char **args, char **arge)
 		}
 		return ((LIST_COMMAND[counter].fptr)(args, arge));
 	} while (++(counter) < ARRAY_SIZE(LIST_COMMAND));
-	return (launch_binary(args, arge));
+	return (launch_binary_by_command(args, arge));
 }

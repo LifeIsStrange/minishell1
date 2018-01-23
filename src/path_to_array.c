@@ -49,6 +49,9 @@ static void set_path_tab(char **tab, char *str, size_t len, uint deep)
 	my_strcpy(path_start, str);
 	my_strcpy(path_start + str_length + 1, cmd);
 	*(path_start + str_length) = '/';
+	if (!(deep)) {
+		free(str);
+	}
 }
 
 static char **get_next_dir(char *str, size_t len, uint deep)
