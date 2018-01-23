@@ -7,6 +7,7 @@
 
 #include "libstring.h"
 #include "minishell.h"
+#define IS_CARAC(c)	(('!' <= c && c <= '~') ? true : false)
 
 static char *next_carac(char *str)
 {
@@ -21,9 +22,9 @@ static char *next_carac(char *str)
 	return (str);
 }
 
-static char const **alloc_array(uint deep)
+static char **alloc_array(uint deep)
 {
-	char const **tab = malloc(sizeof(char const *) * (deep + 1));
+	char **tab = malloc(sizeof(char *) * (deep + 1));
 
 	if (!(tab)) {
 		return (NULL);
@@ -32,10 +33,10 @@ static char const **alloc_array(uint deep)
 	return (tab);
 }
 
-static char const **get_next_word(char *str, uint deep)
+static char **get_next_word(char *str, uint deep)
 {
-	char const *end_of_word = next_carac(str);
-	char const **tab = NULL;
+	char *end_of_word = next_carac(str);
+	char **tab = NULL;
 
 	if (!(end_of_word - str)) {
 		return (alloc_array(deep));
@@ -48,12 +49,12 @@ static char const **get_next_word(char *str, uint deep)
 	return (tab);
 }
 
-static char const *get_correct_str(char *str)
+static char *get_correct_str(char *str)
 {
-	char const *tmp = str;
-	char const *new_str = NULL;
+	char *tmp = str;
+	char *new_str = NULL;
 
-	while (!(IS_CARAC(*(tmp)))) {
+	while (*(tmp) && !(IS_CARAC(*(tmp)))) {
 		++(tmp);
 	}
 	if (!(*(tmp))) {
@@ -68,7 +69,7 @@ static char const *get_correct_str(char *str)
 	return (new_str);
 }
 
-char const **str_to_array(char *str)
+char **str_to_array(char *str)
 {
 	if (!(str)) {
 		return (NULL);

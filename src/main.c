@@ -5,28 +5,27 @@
 ** Main file
 */
 
-#include "minishell.h"
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <unistd.h>
-#include <stdio.h>
-/*
+#include "libstring.h"
+#include "minishell.h"
+
 int try_fork(char **args, char **arge, char *path)
 {
-	int ret;
 	pid_t pid = fork();
+	int w_status;
 
 	if (pid == -1) {
 		return (false);
 	} else if (pid == 0) {
-		execve(path, args, arge);
-		exit(0);
+		return (execve(path, args, arge));
 	} else {
-		waitpid(0, pid, 0);
+		waitpid(0, &(w_status), 0);
 	}
 	return (true);
 }
 
+/*
 char *my_strcat(char *first, char *second)
 {
 	char *str = malloc(strlen(first) + strlen(second));
@@ -112,32 +111,32 @@ void print_all(char **args)
 	}
 }
 
-int main(int argc, char **argv, char **arge)
+static int loop_shell(char **arge)
 {
 	char **args;
-	char **path = NULL;
-	char *s = 1;
 
 	do {
 		write(1, PROMPT, sizeof(PROMPT));
 		args = str_to_array(get_next_line());
-		if (!(args)) {
+		if (!(launch_command(args, arge))) {
 			return (84);
 		}
 		print_all(args);
-//		path = get_possible_path(arge, *(args));
-//		args = my_str_to_word_array(get_next_line(0));
-//		if (path) {
-//			printf("path: %s\n", *path);
-//			try_fork(args, arge, path);
-//			free(path);
-//		}
-//		printf("%p\n", args);
-		if (*(args) && !(my_strcmp(*(args), "exit"))) {
+		if (*(args) && !(my_strcmp(*(args), CMD_EXIT))) {
+			free(*(args));
+			free(args);
 			break;
 		}
 		free(*(args));
 		free(args);
 	} while (true);
+	return (0);
+}
+
+int main(unused int argc, unused char **argv, char **arge)
+{
+	if (!(loop_shell(arge))) {
+		return (84);
+	}
 	return (0);
 }

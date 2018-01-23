@@ -12,8 +12,11 @@ DEBUG	=	yes
 LIB	=	-lstring
 
 SRC	=	src/main.c			\
-		src/my_str_to_word_array.c	\
-		src/get_next_line.c
+		src/str_to_array.c		\
+		src/get_next_line.c		\
+		src/builtin.c			\
+		src/path_to_array.c		\
+		src/command.c
 
 NAME	=	mysh
 

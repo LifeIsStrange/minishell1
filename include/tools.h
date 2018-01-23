@@ -15,6 +15,7 @@
 
 # define	uint		unsigned int
 # define	uchar		unsigned char
+# define	unused		__attribute__((unused))
 
 # define WRITE_DEFINE(str)	write(1, (str), sizeof((str)))
 

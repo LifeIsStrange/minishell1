@@ -10,16 +10,22 @@
 
 # include	"tools.h"
 
-# define	ARG_PATH	"PATH="
-# define	PROMPT		"$>"
+// Define
+# define	ENV_PATH	"PATH="
+# define	PROMPT		"$> "
+# define	CMD_EXIT	"exit"
 
-# define	IS_CARAC(c)	(('!' <= c && c <= '~') ? true : false)
+// Display
+# define	COMMAND_NOT_FOUND	"Command not found\n"
+# define	FD_NOT_POSSIBLE		"Cannot recieve input\n"
 
 # ifndef	READ_SIZE
 #  define	READ_SIZE (3)
 # endif		/* READ_SIZE */
 
-char const **str_to_array(char *str);
+// Prototypes
+char **str_to_array(char *str);
 char *get_next_line(void);
+int launch_command(char **args, char **arge);
 
 #endif		/* MINISHELL_H_ */
