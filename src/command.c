@@ -96,7 +96,8 @@ int launch_command(char **args, char **arge)
 		if (my_strcmp(*(args), LIST_COMMAND[counter].cmd)) {
 			continue;
 		}
-		return ((LIST_COMMAND[counter].fptr)(args, arge));
+		LIST_COMMAND[counter].fptr(args, arge);
+		return (true);
 	} while (++(counter) < ARRAY_SIZE(LIST_COMMAND));
 	if (*(*(args)) == '/') {
 		return (launch_binary_by_path(&(*(args)), args, arge));

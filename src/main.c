@@ -19,13 +19,13 @@ static int loop_shell(char **arge)
 			write(1, "exit\n", 5);
 			return (true);
 		}
-		if (!(launch_command(args, arge))) {
-			return (false);
-		}
 		if (*(args) && !(my_strcmp(*(args), CMD_EXIT))) {
 			free(*(args));
 			free(args);
 			break;
+		}
+		if (!(launch_command(args, arge))) {
+			return (false);
 		}
 		free(*(args));
 		free(args);
