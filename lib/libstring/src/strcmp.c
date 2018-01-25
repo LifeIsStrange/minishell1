@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** LibString
 ** File description:
-** Strcmp
+** strcmp, strncmp - Compare two strings
 */
 
 #include <stddef.h>
@@ -22,7 +22,7 @@ size_t my_strcmp(char const *s1, char const *s2)
 	return (c1 - c2);
 }
 
-size_t my_strncmp(char const *s1, char const *s2, int n)
+size_t my_strncmp(char const *s1, char const *s2, size_t n)
 {
 	unsigned char c1;
 	unsigned char c2;

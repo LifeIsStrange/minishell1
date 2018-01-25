@@ -2,20 +2,18 @@
 ** EPITECH PROJECT, 2018
 ** LibString
 ** File description:
-** my_strchr
+** strchr - Locate character in string
 */
 
 #include <unistd.h>
 
-ssize_t my_strchr(char const *str, char c)
+char *my_strchr(char const *str, char c)
 {
-	char const *tmp = str;
-
-	while (*(tmp)) {
-		if (*(tmp) == c) {
-			return (tmp - str);
+	while (*(str)) {
+		if (*(str) == c) {
+			return ((char *)str);
 		}
-		++(tmp);
+		++(str);
 	}
-	return (-1);
+	return (NULL);
 }

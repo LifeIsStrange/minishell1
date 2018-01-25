@@ -8,9 +8,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 void my_strcpy(char *dest, char const *src);
-size_t my_strlen(const char *str);
+size_t my_strlen(char const *str);
 
-char *my_strdup(const char *str)
+char *my_strdup(char const *str)
 {
 	size_t length = my_strlen(str);
 	char *new_str = malloc(sizeof(char) * (length + 1));

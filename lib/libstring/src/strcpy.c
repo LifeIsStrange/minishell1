@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** LibString
 ** File description:
-** Strncpy
+** strcpy, strncpy - Copy a string
 */
 
 #include <stddef.h>

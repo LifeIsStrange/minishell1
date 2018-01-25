@@ -5,18 +5,14 @@
 ** Run command
 */
 
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "libstring.h"
 #include "minishell.h"
 #include "command.h"
 
 command_t const LIST_COMMAND[] = {
 	{"cd", cd_command},
-	{"setenv", setenv_command}
+	{"env", env_command},
+	{"setenv", setenv_command},
+	{"unsetenv", unsetenv_command}
 };
 
 static int get_error_by_signal(int w_status)
@@ -56,7 +52,7 @@ static int launch_binary_by_path(char **path, char **args, char **arge)
 		return (launch_binary(*(path), args, arge));
 	}
 	if (!(*(path))) {
-		my_putstr(*(args));
+		my_puts(*(args));
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 	}
 	return (true);
@@ -68,7 +64,7 @@ static int launch_binary_by_command(char **args, char **arge)
 	char **path = path_to_array(env, *(args));
 
 	if (!(env)) {
-		my_putstr(*(args));
+		my_puts(*(args));
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 		return (true);
 	}
