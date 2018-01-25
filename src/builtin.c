@@ -8,7 +8,7 @@
 #include "libstring.h"
 #include "minishell.h"
 
-int cd_command(char **args, char **arge)
+void cd_command(char **args, char **arge)
 {
 	char *env = NULL;
 
