@@ -17,7 +17,7 @@
 # define	uchar		unsigned char
 # define	unused		__attribute__((unused))
 
-# define WRITE_DEFINE(str)	write(1, (str), sizeof((str)))
+# define WRITE_DEFINE(str)	write(1, (str), sizeof((str)) - 1)
 
 # define MIN(x, y)		(((x) < (y)) ?  (x) : (y))
 # define MAX(x, y)		(((x) > (y)) ?  (x) : (y))

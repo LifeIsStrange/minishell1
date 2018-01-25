@@ -13,14 +13,17 @@
 // Define
 # define	ENV_PATH	"PATH="
 # define	ENV_HOME	"HOME="
-# define	PROMPT		"$> "
 # define	CMD_EXIT	"exit"
+# define	CMD_SETENV	"setenv"
+# define	CMD_UNSETENV	"unsetenv"
 
 // Signal
 # define	FLOATING_SIGNAL	136
 # define	SEGFAULT_SIGNAL	139
 
 // Display
+# define	PROMPT			"$> "
+# define	EXIT			"exit\n"
 # define	COMMAND_NOT_FOUND	": Command not found.\n"
 # define	DIRECTORY_NOT_FOUND	": Not a directory\n"
 # define	CD_NO_HOME_DIRECTORY	"cd: No home directory.\n"

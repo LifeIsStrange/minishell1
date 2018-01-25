@@ -39,16 +39,3 @@ int env_command(char **args, char **arge)
 	}
 	return (true);
 }
-
-int setenv_command(char **args, char **arge)
-{
-	add_to_env(arge, *(args + 1), *(args + 2));
-	printf("set env\n");
-	return (1);
-}
-
-int unsetenv_command(char **args, char **arge)
-{
-	printf("unset env\n");
-	return (1);
-}

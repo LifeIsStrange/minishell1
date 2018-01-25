@@ -8,16 +8,8 @@
 #ifndef		COMMAND_H_
 # define	COMMAND_H_
 
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "tools.h"
 #include "libstring.h"
-
-#ifndef WCOREDUMP
-# define WCOREDUMP(status)	((status) & 0x80)
-#endif
 
 typedef struct command_s command_t;
 
