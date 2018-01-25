@@ -16,6 +16,10 @@
 # define	PROMPT		"$> "
 # define	CMD_EXIT	"exit"
 
+// Signal
+# define	FLOATING_SIGNAL	136
+# define	SEGFAULT_SIGNAL	139
+
 // Display
 # define	COMMAND_NOT_FOUND	": Command not found.\n"
 # define	DIRECTORY_NOT_FOUND	": Not a directory\n"
@@ -24,6 +28,8 @@
 # define	FD_NOT_RECIEVED		"Cannot recieve input\n"
 # define	SEGMENTATION_FAULT	"Segmentation fault\n"
 # define	FLOATING_POINT		"Floating exception\n"
+# define	EXEC_FORMAT_ERROR	": Exec format error. \
+Wrong Architecture\n"
 
 # ifndef	READ_SIZE
 #  define	READ_SIZE (3)

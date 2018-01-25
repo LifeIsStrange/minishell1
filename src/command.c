@@ -15,10 +15,13 @@ command_t const LIST_COMMAND[] = {
 	{"unsetenv", unsetenv_command}
 };
 
-static int get_error_by_signal(int w_status)
+static void get_error_by_signal(int w_status)
 {
-	if (WCOREDUMP(w_status)) {
+	if (w_status == SEGFAULT_SIGNAL) {
 		WRITE_DEFINE(SEGMENTATION_FAULT);
+	}
+	if (w_status == FLOATING_SIGNAL) {
+		WRITE_DEFINE(FLOATING_POINT);
 	}
 }
 
@@ -30,7 +33,9 @@ static int launch_binary(char *path, char **args, char **arge)
 	if (pid == -1) {
 		return (false);
 	} else if (pid == 0) {
-		return (execve(path, args, arge));
+		if (!(execve(path, args, arge))) {
+			WRITE_DEFINE(EXEC_FORMAT_ERROR);
+		}
 	} else {
 		waitpid(0, &(w_status), 0);
 		if (w_status == -1) {
