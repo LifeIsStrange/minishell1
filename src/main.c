@@ -26,19 +26,24 @@ static int is_user_exit(char **args)
 static int execute_command(char ***arge, char **args)
 {
 	if (!(my_strcmp(*(args), CMD_SETENV))) {
-		add_to_env(arge, *(args + 1), *(args + 2));
+		if (!(add_to_env(arge, *(args + 1), *(args + 2)))) {
+			return (false);
+		}
 	} else if (!(my_strcmp(*(args), CMD_UNSETENV))) {
-		rm_from_env(arge, *(args + 1));
-	}
-	if (!(launch_command(args, *(arge)))) {
-		return (false);
+		if (!(rm_from_env(&(arge), *(args + 1)))) {
+			return (false);
+		}
+	} else {
+		if (!(launch_command(args, *(arge)))) {
+			return (false);
+		}
 	}
 	free(*(args));
 	free(args);
 	return (true);
 }
 
-static int loop_shell(char **arge)
+static int loop_shell(char ***arge)
 {
 	char **args = NULL;
 
@@ -54,18 +59,25 @@ static int loop_shell(char **arge)
 		}
 		if (is_user_exit(args)) {
 			return (true);
-		}
-		if (!(execute_command(&(arge), args))) {
+		} else if (!(execute_command(arge, args))) {
+			free(*(args));
+			free(args);
 			return (false);
 		}
 	} while (true);
-	return (true);
 }
 
 int main(unused int argc, unused char **argv, char **arge)
 {
-	if (!(loop_shell(arge))) {
+	char **shell_env = init_env(arge);
+
+	if (!(shell_env)) {
 		return (84);
 	}
+	if (!(loop_shell(&(shell_env)))) {
+		free_env(shell_env);
+		return (84);
+	}
+	free_env(shell_env);
 	return (0);
 }

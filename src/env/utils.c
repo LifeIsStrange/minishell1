@@ -22,7 +22,7 @@ void env_cpy(char **dest, char **src)
 {
 	size_t counter = 0;
 
-	while (src + counter) {
+	while (*(src + counter)) {
 		*(dest + counter) = *(src + counter);
 		++(counter);
 	}
@@ -39,26 +39,16 @@ char **create_env(size_t length)
 	return (env);
 }
 
-char *create_key_value(char const *key, char const *value)
+char *get_env(char **arge, char *env)
 {
-	size_t key_length = my_strlen(key);
-	size_t value_length = my_strlen(value);
-	char *str = malloc(sizeof(char) * (key_length + value_length + 2));
+	size_t length = my_strlen(env);
 
-	if (!(str)) {
-		return (NULL);
-	}
-	my_strcpy(str, key);
-	my_strcpy(str + key_length, value);
-	*(str + key_length - 1) = '=';
-	*(str + key_length + value_length) = '\0';
-	return (str);
-}
-
-char *get_env(char **arge, char *env, size_t env_len)
-{
 	while (*(arge)) {
-		if (my_strncmp(*(arge), env, env_len)) {
+		if (my_strncmp(*(arge), env, length)) {
+			++(arge);
+			continue;
+		}
+		if (*(*(arge) + length) != '=') {
 			++(arge);
 			continue;
 		}

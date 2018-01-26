@@ -7,6 +7,7 @@
 
 #include "minishell.h"
 #include "command.h"
+#include "env.h"
 
 command_t const LIST_COMMAND[] = {
 	{"cd", cd_command},
@@ -33,20 +34,9 @@ static int launch_binary_by_dir_command(char **args, char **arge)
 {
 }
 
-
-static void get_error_by_signal(int w_status)
-{
-	if (w_status == SEGFAULT_SIGNAL) {
-		WRITE_DEFINE(SEGMENTATION_FAULT);
-	}
-	if (w_status == FLOATING_SIGNAL) {
-		WRITE_DEFINE(FLOATING_POINT);
-	}
-}
-
 static int launch_binary_by_command(char **args, char **arge)
 {
-	char *env = my_strdup(get_env(arge, ENV_PATH, sizeof(ENV_PATH) - 1));
+	char *env = my_strdup(get_env(arge, ENV_PATH));
 	char **path = path_to_array(env, *(args));
 
 	if (!(env)) {

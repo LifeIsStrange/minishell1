@@ -16,9 +16,10 @@ SRC	=	src/main.c			\
 		src/builtin.c			\
 		src/command.c			\
 		src/launch.c			\
-		src/env/utils.c			\
 		src/env/add.c			\
+		src/env/init.c			\
 		src/env/remove.c		\
+		src/env/utils.c			\
 		src/path_to_array.c		\
 		src/str_to_array.c
 

@@ -7,6 +7,7 @@
 
 #include "libstring.h"
 #include "minishell.h"
+#include "env.h"
 
 int cd_command(char **args, char **arge)
 {
@@ -19,7 +20,7 @@ int cd_command(char **args, char **arge)
 		}
 		return (true);
 	}
-	env = get_env(arge, ENV_HOME, sizeof(ENV_HOME) - 1);
+	env = get_env(arge, ENV_HOME);
 	if (env) {
 		if (chdir(env)) {
 			WRITE_DEFINE(CD_WRONG_HOME_DIRECTORY);

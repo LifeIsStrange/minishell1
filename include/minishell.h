@@ -11,8 +11,8 @@
 # include	"tools.h"
 
 // Define
-# define	ENV_PATH	"PATH="
-# define	ENV_HOME	"HOME="
+# define	ENV_PATH	"PATH"
+# define	ENV_HOME	"HOME"
 # define	CMD_EXIT	"exit"
 # define	CMD_SETENV	"setenv"
 # define	CMD_UNSETENV	"unsetenv"
@@ -40,9 +40,11 @@ Wrong Architecture\n"
 
 // Prototypes
 char *get_next_line(void);
-char *get_env(char **arge, char *env, size_t env_len);
 char **str_to_array(char *str);
 char **path_to_array(char *path, char *command);
+char **init_env(char **arge);
+void free_env(char **arge);
+char **add_to_env(char ***arge, char *key, char *value);
 int launch_command(char **args, char **arge);
 
 #endif		/* MINISHELL_H_ */
