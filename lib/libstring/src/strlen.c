@@ -11,7 +11,7 @@ size_t my_strlen(const char *str)
 {
 	const char *tmp = str;
 
-	if (!(*(tmp))) {
+	if (!(tmp)) {
 		return (0);
 	}
 	while (*(tmp)) {

@@ -9,19 +9,23 @@
 
 void my_strcpy(char *dest, char const *src)
 {
-	while (*(src)) {
-		*(dest) = *(src);
-		++(dest);
-		++(src);
+	if (src) {
+		while (*(src)) {
+			*(dest) = *(src);
+			++(dest);
+			++(src);
+		}
+		*(dest) = '\0';
 	}
-	*(dest) = '\0';
 }
 
 void my_strncpy(char *dest, char const *src, size_t n)
 {
-	*(dest + n) = '\0';
-	while (n) {
-		--(n);
-		*(dest + n) = *(src + n);
+	if (src) {
+		*(dest + n) = '\0';
+		while (n) {
+			--(n);
+			*(dest + n) = *(src + n);
+		}
 	}
 }

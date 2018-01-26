@@ -12,9 +12,14 @@ size_t my_strlen(char const *str);
 
 char *my_strdup(char const *str)
 {
-	size_t length = my_strlen(str);
-	char *new_str = malloc(sizeof(char) * (length + 1));
+	size_t length;
+	char *new_str = NULL;
 
+	if (!(str)) {
+		return (NULL);
+	}
+	length = my_strlen(str);
+	new_str = malloc(sizeof(char) * (length + 1));
 	if (!(new_str)) {
 		return (NULL);
 	}
