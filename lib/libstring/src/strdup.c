@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 void my_strcpy(char *dest, char const *src);
 size_t my_strlen(char const *str);
 
