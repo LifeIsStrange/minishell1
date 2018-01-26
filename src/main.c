@@ -30,7 +30,7 @@ static int execute_command(char ***arge, char **args)
 			return (false);
 		}
 	} else if (!(my_strcmp(*(args), CMD_UNSETENV))) {
-		if (!(rm_from_env(&(arge), *(args + 1)))) {
+		if (!(rm_from_env(arge, *(args + 1)))) {
 			return (false);
 		}
 	} else {

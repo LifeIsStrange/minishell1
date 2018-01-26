@@ -32,7 +32,8 @@ char **str_to_array(char *str);
 char **path_to_array(char *path, char *command);
 char **init_env(char **arge);
 void free_env(char **arge);
-char **add_to_env(char ***arge, char *key, char *value);
+int add_to_env(char ***arge, char *key, char *value);
+int rm_from_env(char ***arge, char *key);
 int launch_command(char **args, char **arge);
 
 #endif		/* MINISHELL_H_ */

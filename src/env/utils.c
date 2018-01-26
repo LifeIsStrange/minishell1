@@ -18,6 +18,14 @@ size_t env_length(char **arge)
 	return ((tmp - arge));
 }
 
+void env_ncpy(char **dest, char **src, size_t n)
+{
+	while (n) {
+		--(n);
+		*(dest + n) = *(src + n);
+	}
+}
+
 void env_cpy(char **dest, char **src)
 {
 	size_t counter = 0;
