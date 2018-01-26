@@ -33,6 +33,15 @@ static int change_pwd(char ***arge)
 
 static int change_to_directory(char ***arge, char *path)
 {
+	char *str = NULL;
+
+	if (!(my_strcmp(path,  "-"))) {
+		str = get_env(*(arge), ENV_OLD_PWD);
+		if (!(str)) {
+			return (WRITE_DEFINE(EMPTY_DIRECTORY_STACK));
+		}
+		return (change_to_directory(arge, str + sizeof(ENV_OLD_PWD)));
+	}
 	if (chdir(path)) {
 		my_puts(path);
 		return (WRITE_DEFINE(DIRECTORY_NOT_FOUND));
