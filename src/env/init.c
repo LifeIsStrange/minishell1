@@ -5,6 +5,7 @@
 ** Initialise environment shell
 */
 
+#include "libstring.h"
 #include "env.h"
 
 static int env_dup(char **dest, char **src, size_t n)

@@ -9,6 +9,7 @@
 # define	MINISHELL_H_
 
 # include	"tools.h"
+# include	"error.h"
 
 // Define
 # define	ENV_PATH	"PATH"
@@ -20,19 +21,6 @@
 // Signal
 # define	FLOATING_SIGNAL	136
 # define	SEGFAULT_SIGNAL	139
-
-// Display
-# define	PROMPT			"$> "
-# define	EXIT			"exit\n"
-# define	COMMAND_NOT_FOUND	": Command not found.\n"
-# define	DIRECTORY_NOT_FOUND	": Not a directory\n"
-# define	CD_NO_HOME_DIRECTORY	"cd: No home directory.\n"
-# define	CD_WRONG_HOME_DIRECTORY	"cd: Can't change to home directory.\n"
-# define	FD_NOT_RECIEVED		"Cannot recieve input\n"
-# define	SEGMENTATION_FAULT	"Segmentation fault\n"
-# define	FLOATING_POINT		"Floating exception\n"
-# define	EXEC_FORMAT_ERROR	": Exec format error. \
-Wrong Architecture\n"
 
 # ifndef	READ_SIZE
 #  define	READ_SIZE (3)
