@@ -60,11 +60,43 @@ static int launch_binary_by_command(char **args, char **arge)
 	return (true);
 }
 
-static int launch_binary_by_dir_command(char **args, char **arge)
+static char *get_path_by_dir(char *dir, char *bin_name)
 {
-	char *str = get_pwd();
+	size_t dir_length = my_strlen(dir);
+	size_t bin_length = my_strlen(bin_name);
+	char *path = malloc(sizeof(char) * (dir_length + bin_length + 1));
+
+	if (!(path)) {
+		return (NULL);
+	}
+	my_strcpy(path, dir);
+	my_strcpy(path + dir_length, bin_name + 1);
+	*(path + dir_length + bin_length) = '\0';
+	return (path);
 }
 
+static int launch_binary_by_dir_command(char **args, char **arge)
+{
+	char *dir = get_pwd();
+	char *path = NULL;
+
+	if (!(dir)) {
+		return (false);
+	}
+	path = get_path_by_dir(dir, *(args));
+	if (!(path)) {
+		free(dir);
+		return (false);
+	}
+	if (!(launch_binary_by_path(&(path), args, arge))) {
+		free(path);
+		free(dir);
+		return (false);
+	}
+	free(path);
+	free(dir);
+	return (true);
+}
 
 int launch_command(char **args, char ***arge)
 {
