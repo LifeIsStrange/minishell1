@@ -25,18 +25,10 @@ static int is_user_exit(char **args)
 
 static int execute_command(char ***arge, char **args)
 {
-	if (!(my_strcmp(*(args), CMD_SETENV))) {
-		if (!(add_to_env(arge, *(args + 1), *(args + 2)))) {
-			return (false);
-		}
-	} else if (!(my_strcmp(*(args), CMD_UNSETENV))) {
-		if (!(rm_from_env(arge, *(args + 1)))) {
-			return (false);
-		}
-	} else {
-		if (!(launch_command(args, *(arge)))) {
-			return (false);
-		}
+	if (!(launch_command(args, arge))) {
+		free(*(args));
+		free(args);
+		return (false);
 	}
 	free(*(args));
 	free(args);
@@ -51,8 +43,7 @@ static int loop_shell(char ***arge)
 		call_prompt();
 		args = str_to_array(get_next_line());
 		if (!(args)) {
-			WRITE_DEFINE(EXIT);
-			return (true);
+			return (WRITE_DEFINE(EXIT));
 		} else if (!(*(args))) {
 			free(args);
 			continue;
@@ -60,8 +51,6 @@ static int loop_shell(char ***arge)
 		if (is_user_exit(args)) {
 			return (true);
 		} else if (!(execute_command(arge, args))) {
-			free(*(args));
-			free(args);
 			return (false);
 		}
 	} while (true);

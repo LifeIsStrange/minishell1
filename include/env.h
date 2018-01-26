@@ -16,4 +16,7 @@ void env_ncpy(char **dest, char **src, size_t n);
 char **create_env(size_t length);
 char *get_env(char **arge, char *env);
 
+int add_to_env(char ***arge, char *key, char *value);
+int delete_from_env(char ***arge, char *key);
+
 #endif		/* ENVIRONMENT_H_ */

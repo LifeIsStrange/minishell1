@@ -6,12 +6,15 @@
 */
 
 #include "minishell.h"
+#include "libstring.h"
 #include "command.h"
 #include "env.h"
 
 command_t const LIST_COMMAND[] = {
-	{"cd", cd_command},
-	{"env", env_command},
+	{CMD_CD, cd_command},
+	{CMD_ENV, env_command},
+	{CMD_SETENV, setenv_command},
+	{CMD_UNSETENV, unsetenv_command}
 };
 
 static int launch_binary_by_path(char **path, char **args, char **arge)
@@ -21,6 +24,10 @@ static int launch_binary_by_path(char **path, char **args, char **arge)
 			++(path);
 			continue;
 		}
+		if (access(*(path), X_OK)) {
+			my_puts(*(path));
+			return (WRITE_DEFINE(EXEC_PERM_ERROR));
+		}
 		return (launch_binary(*(path), args, arge));
 	}
 	if (!(*(path))) {
@@ -28,10 +35,6 @@ static int launch_binary_by_path(char **path, char **args, char **arge)
 		WRITE_DEFINE(COMMAND_NOT_FOUND);
 	}
 	return (true);
-}
-
-static int launch_binary_by_dir_command(char **args, char **arge)
-{
 }
 
 static int launch_binary_by_command(char **args, char **arge)
@@ -57,7 +60,13 @@ static int launch_binary_by_command(char **args, char **arge)
 	return (true);
 }
 
-int launch_command(char **args, char **arge)
+static int launch_binary_by_dir_command(char **args, char **arge)
+{
+	char *str = get_pwd();
+}
+
+
+int launch_command(char **args, char ***arge)
 {
 	uint counter = 0;
 
@@ -71,9 +80,9 @@ int launch_command(char **args, char **arge)
 		return (LIST_COMMAND[counter].fptr(args, arge));
 	} while (++(counter) < ARRAY_SIZE(LIST_COMMAND));
 	if (*(*(args)) == '/') {
-		return (launch_binary_by_path(&(*(args)), args, arge));
+		return (launch_binary_by_path(&(*(args)), args, *(arge)));
 	} else if (!(my_strncmp(*(args), "./", 2))) {
-		return (launch_binary_by_dir_command(args, arge));
+		return (launch_binary_by_dir_command(args, *(arge)));
 	}
-	return (launch_binary_by_command(args, arge));
+	return (launch_binary_by_command(args, *(arge)));
 }

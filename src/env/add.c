@@ -5,6 +5,7 @@
 ** Add key (and value) to environment
 */
 
+#include "command.h"
 #include "libstring.h"
 #include "error.h"
 #include "env.h"
@@ -35,7 +36,7 @@ static int add_key(char ***arge, char *key, char *value)
 		return (false);
 	}
 	*(*(arge) + length) = create_key_value(key, value);
-	if (!(*(*(arge + length)))) {
+	if (!(*(*(arge) + length))) {
 		free(arge);
 		return (false);
 	}
@@ -47,7 +48,7 @@ static int add_key(char ***arge, char *key, char *value)
 static int is_valid_key(char *str)
 {
 	while (*(str)) {
-		if (!(IS_ALPHA(*(str)) || IS_NUM(*(str)))) {
+		if (!(*(str) == '_' || IS_ALPHA(*(str)) || IS_NUM(*(str)))) {
 			return (false);
 		}
 		++(str);
@@ -57,7 +58,7 @@ static int is_valid_key(char *str)
 
 static int change_key(char **arge, char *dest, char *key, char *value)
 {
-	char *str = create_key_value(dest, key);
+	char *str = create_key_value(key, value);
 
 	if (!(str)) {
 		return (false);
@@ -68,7 +69,7 @@ static int change_key(char **arge, char *dest, char *key, char *value)
 			continue;
 		}
 		free(*(arge));
-		*(arge) = my_strdup(str);
+		*(arge) = str;
 		if (!(str)) {
 			return (false);
 		}
@@ -82,7 +83,7 @@ int add_to_env(char ***arge, char *key, char *value)
 	char *str = NULL;
 
 	if (!(key)) {
-		return (env_command(NULL, *(arge)));
+		return (env_command(NULL, arge));
 	}
 	if (!(is_valid_key(key))) {
 		return (WRITE_DEFINE(ENV_ERROR_KEY));

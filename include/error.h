@@ -18,6 +18,7 @@
 # define	FD_NOT_RECIEVED		"Cannot recieve input\n"
 # define	SEGMENTATION_FAULT	"Segmentation fault\n"
 # define	FLOATING_POINT		"Floating exception\n"
+# define	EXEC_PERM_ERROR		": Permission denied.\n"
 # define	EXEC_FORMAT_ERROR	": Exec format error. \
 Wrong Architecture\n"
 # define	ENV_ERROR_KEY		"setenv: Variable name must contain \

@@ -13,9 +13,11 @@ LIB	=	-lstring
 
 SRC	=	src/main.c			\
 		src/get_next_line.c		\
-		src/builtin.c			\
+		src/builtin/cd.c		\
+		src/builtin/env.c		\
 		src/command.c			\
 		src/launch.c			\
+		src/utils.c			\
 		src/env/add.c			\
 		src/env/init.c			\
 		src/env/remove.c		\

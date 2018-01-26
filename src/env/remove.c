@@ -35,11 +35,11 @@ static int delete_key(char ***arge, char *key_to_delete)
 	return (true);
 }
 
-int rm_from_env(char ***arge, char *key)
+int delete_from_env(char ***arge, char *key)
 {
 	char **tmp = *(arge);
 
-	if (!(tmp)) {
+	if (!(tmp) || !(key)) {
 		return (true);
 	}
 	while (*(tmp)) {
