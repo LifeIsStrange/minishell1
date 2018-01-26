@@ -27,6 +27,7 @@
 // Signal
 # define	FLOATING_SIGNAL		136
 # define	SEGFAULT_SIGNAL		139
+# define	SIGNAL_HANDLER		"^C"
 
 # ifndef	READ_SIZE
 #  define	READ_SIZE (2)

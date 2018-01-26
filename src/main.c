@@ -8,13 +8,15 @@
 #include "libstring.h"
 #include "minishell.h"
 
-static void call_prompt(void)
-{
-	WRITE_DEFINE(PROMPT);
-}
-
 static int is_user_exit(char **args)
 {
+	if (!(args)) {
+		WRITE_DEFINE(EXIT);
+		return (true);
+	} else if (!(*(args))) {
+		free(args);
+		return (false);
+	}
 	if (!(my_strcmp(*(args), CMD_EXIT))) {
 		free(*(args));
 		free(args);
@@ -40,14 +42,8 @@ static int loop_shell(char ***arge)
 	char **args = NULL;
 
 	do {
-		call_prompt();
+		WRITE_DEFINE(PROMPT);
 		args = str_to_array(get_next_line());
-		if (!(args)) {
-			return (WRITE_DEFINE(EXIT));
-		} else if (!(*(args))) {
-			free(args);
-			continue;
-		}
 		if (is_user_exit(args)) {
 			return (true);
 		} else if (!(execute_command(arge, args))) {

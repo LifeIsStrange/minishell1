@@ -1,5 +1,5 @@
 ##
-## EPITECH PROJECT, 2017
+## EPITECH PROJECT, 2018
 ## Makefile
 ## File description:
 ## Makefile
@@ -7,7 +7,7 @@
 
 include tools.mk
 
-DEBUG	=	yes
+DEBUG	=	no
 
 LIB	=	-lstring
 
@@ -45,9 +45,7 @@ all:		$(NAME)
 
 $(NAME):	lib $(OBJ)
 ifeq ($(DEBUG), yes)
-		@tput setaf 1; tput bold
 		@$(call draw_debug_mode)
-		@tput sgr0
 endif
 		@$(call run_command, "Compiling "$(NAME)": ", $(CC) -o $(NAME) $(OBJ) $(LDFLAGS))
 

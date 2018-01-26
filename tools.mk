@@ -6,6 +6,7 @@
 ##
 
 define draw_debug_mode
+	@tput setaf 1; tput bold
 	@echo "                                                                                                    ";
 	@echo " :::::::\            ::\                                 ::\      ::\                 ::\           ";
 	@echo " ::  __::\           :: |                                :::\    ::: |                :: |          ";
@@ -19,6 +20,7 @@ define draw_debug_mode
 	@echo "                                         \::::::  |                                                 ";
 	@echo "                                          \______/                                                  ";
 	@echo "                                                                                                    ";
+	@tput sgr0
 endef
 
 define run_command
