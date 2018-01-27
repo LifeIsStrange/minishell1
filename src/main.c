@@ -11,7 +11,7 @@
 
 int signal_detected = 0;
 
-static void signal_handler(int handler)
+static void signal_handler(unused int handler)
 {
 	signal(SIGINT, signal_handler);
 	write(1, "\n", 1);

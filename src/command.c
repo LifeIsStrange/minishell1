@@ -58,7 +58,7 @@ static int launch_binary_by_command(char **args, char **arge)
 	}
 	if (!(launch_binary_by_path(path, args, arge))) {
 		free(*(path));
-		free(path);
+		free(path - 5);
 		return (false);
 	}
 	free(*(path));

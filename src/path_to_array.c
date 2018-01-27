@@ -50,7 +50,7 @@ static void set_path_tab(char **tab, char *str, size_t len, uint deep)
 	my_strcpy(path_start + str_length + 1, cmd);
 	*(path_start + str_length) = '/';
 	if (!(deep)) {
-		free(str);
+		free(str - 5);
 	}
 }
 
@@ -76,5 +76,5 @@ char **path_to_array(char *path, char *command)
 		return (NULL);
 	}
 	cmd = command;
-	return (get_next_dir(path, 0, 0));
+	return (get_next_dir(path + 5, 0, 0));
 }
