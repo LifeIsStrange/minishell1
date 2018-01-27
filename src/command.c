@@ -102,7 +102,7 @@ int launch_command(char **args, char ***arge)
 {
 	uint counter = 0;
 
-	if (!(*(args))) {
+	if (!(args) || !(*(args))) {
 		return (true);
 	}
 	do {

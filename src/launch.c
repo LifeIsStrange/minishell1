@@ -5,10 +5,10 @@
 ** Launch binary
 */
 
-#include "minishell.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
+#include "minishell.h"
 
 static void get_error_by_signal(int w_status)
 {

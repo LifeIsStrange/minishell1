@@ -6,7 +6,6 @@
 */
 
 #include <signal.h>
-#include <stdio.h>
 #include "libstring.h"
 #include "minishell.h"
 
@@ -25,7 +24,6 @@ static int is_user_exit(char **args)
 		WRITE_DEFINE(EXIT);
 		return (true);
 	} else if (!(*(args))) {
-		free(args);
 		return (false);
 	}
 	if (!(my_strcmp(*(args), CMD_EXIT))) {
@@ -38,6 +36,10 @@ static int is_user_exit(char **args)
 
 static int execute_command(char ***arge, char **args)
 {
+	if (!(*(args))) {
+		free(args);
+		return (true);
+	}
 	if (!(launch_command(args, arge))) {
 		free(*(args));
 		free(args);
