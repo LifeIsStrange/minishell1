@@ -17,7 +17,7 @@ static int change_pwd(char ***arge)
 	if (!(pwd)) {
 		return (false);
 	}
-	if (old_pwd) {
+	if (old_pwd - sizeof(ENV_PWD)) {
 		if (!(add_to_env(arge, ENV_OLD_PWD, old_pwd))) {
 			free(pwd);
 			return (false);

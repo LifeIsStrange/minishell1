@@ -8,14 +8,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
+#include <signal.h>
 #include "minishell.h"
 
-static void get_error_by_signal(int w_status)
+static void get_error_by_signal(int status)
 {
-	if (w_status == SEGFAULT_SIGNAL) {
+	if (status == SIGSEGV) {
 		WRITE_DEFINE(SEGMENTATION_FAULT);
 	}
-	if (w_status == FLOATING_SIGNAL) {
+	if (status == SIGFPE) {
 		WRITE_DEFINE(FLOATING_POINT);
 	}
 }
@@ -36,7 +37,7 @@ int launch_binary(char *path, char **args, char **arge)
 		if (w_status == -1) {
 			return (false);
 		} else if (WIFSIGNALED(w_status)) {
-			get_error_by_signal(w_status);
+			get_error_by_signal(WTERMSIG(w_status));
 		}
 	}
 	return (true);

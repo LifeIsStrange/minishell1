@@ -31,10 +31,10 @@
 # define IS_NEG(x)		((x) == ABS((x)) ? 0 : 1)
 # define DIFF(a, b)		ABS((a) - (b))
 
-# define IS_ALPHA_MIN(c)	('a' < (c) && (c) < 'z')
-# define IS_ALPHA_MAJ(c)	('A' < (c) && (c) < 'Z')
-# define IS_ALPHA(c)		IS_ALPHA_MIN(c) || IS_ALPHA_MAJ(c)
-# define IS_NUM(c)		('0' < (c) && (c) < '9')
+# define IS_ALPHA_MIN(c)	('a' <= (c) && (c) <= 'z')
+# define IS_ALPHA_MAJ(c)	('A' <= (c) && (c) <= 'Z')
+# define IS_NUM(c)		('0' <= (c) && (c) <= '9')
+# define IS_ALPHA(c)		(IS_ALPHA_MIN(c) || IS_ALPHA_MAJ(c))
 
 # define STMT(stuff)		do { (stuff) } while (0)
 

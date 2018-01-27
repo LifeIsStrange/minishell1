@@ -15,7 +15,7 @@
 # define	ENV_PATH	"PATH"
 # define	ENV_HOME	"HOME"
 # define	ENV_PWD		"PWD"
-# define	ENV_OLD_PWD	"OLD_PWD"
+# define	ENV_OLD_PWD	"OLDPWD"
 
 // Built-in commmands
 # define	CMD_EXIT	"exit"
