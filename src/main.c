@@ -5,8 +5,19 @@
 ** Main file
 */
 
+#include <signal.h>
+#include <stdio.h>
 #include "libstring.h"
 #include "minishell.h"
+
+int signal_detected = 0;
+
+static void signal_handler(int handler)
+{
+	signal(SIGINT, signal_handler);
+	write(1, "\n", 1);
+	signal_detected = 1;
+}
 
 static int is_user_exit(char **args)
 {
@@ -44,6 +55,10 @@ static int loop_shell(char ***arge)
 	do {
 		WRITE_DEFINE(PROMPT);
 		args = str_to_array(get_next_line());
+		if (signal_detected) {
+			signal_detected = 0;
+			continue;
+		}
 		if (is_user_exit(args)) {
 			return (true);
 		} else if (!(execute_command(arge, args))) {
@@ -56,6 +71,7 @@ int main(unused int argc, unused char **argv, char **arge)
 {
 	char **shell_env = init_env(arge);
 
+	signal(SIGINT, signal_handler);
 	if (!(shell_env)) {
 		return (84);
 	}
