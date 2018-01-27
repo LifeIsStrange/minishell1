@@ -5,6 +5,8 @@
 ** Run command
 */
 
+#include <sys/types.h>
+#include <dirent.h>
 #include "minishell.h"
 #include "libstring.h"
 #include "command.h"
@@ -19,22 +21,26 @@ command_t const LIST_COMMAND[] = {
 
 static int launch_binary_by_path(char **path, char **args, char **arge)
 {
+	DIR *dir = NULL;
+
 	while (*(path)) {
 		if (access(*(path), F_OK)) {
 			++(path);
 			continue;
 		}
-		if (access(*(path), X_OK)) {
+		dir = opendir(*(path));
+		if (dir) {
+			closedir(dir);
+			my_puts(*(path));
+			return (WRITE_DEFINE(EXEC_PERM_ERROR));
+		} else if (access(*(path), X_OK)) {
 			my_puts(*(path));
 			return (WRITE_DEFINE(EXEC_PERM_ERROR));
 		}
 		return (launch_binary(*(path), args, arge));
 	}
-	if (!(*(path))) {
-		my_puts(*(args));
-		WRITE_DEFINE(COMMAND_NOT_FOUND);
-	}
-	return (true);
+	my_puts(*(args));
+	return (WRITE_DEFINE(COMMAND_NOT_FOUND));
 }
 
 static int launch_binary_by_command(char **args, char **arge)
@@ -102,9 +108,6 @@ int launch_command(char **args, char ***arge)
 {
 	uint counter = 0;
 
-	if (!(args) || !(*(args))) {
-		return (true);
-	}
 	do {
 		if (my_strcmp(*(args), LIST_COMMAND[counter].cmd)) {
 			continue;
